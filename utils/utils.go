@@ -40,3 +40,14 @@ func GetInputData(day int) string {
 
 	return strings.TrimSuffix(string(body), "\n")
 }
+
+func StringToInt(s string) int {
+	num := 0
+	bits := []byte(s)
+
+	for _, bit := range bits {
+		num = num*10 + (int(bit) - '0')
+	}
+
+	return num
+}
