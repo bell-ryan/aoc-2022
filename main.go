@@ -7,8 +7,9 @@ import (
 
 func main() {
 	// Day 1
-	fmt.Printf("Day 1 - part 1 answer %d\n", day1.Part1())
-	fmt.Printf("Day 1 - part 2 answer %d\n", day1.Part2())
+	p1, p2 := day1.Solution()
+	fmt.Printf("Day 1 - part 1 answer %d\n", p1)
+	fmt.Printf("Day 1 - part 2 answer %d\n", p2)
 	fmt.Println("-----------------")
 
 	// Day 2

@@ -7,30 +7,9 @@ import (
 	"strings"
 )
 
-func Part1() int {
+func Solution() (int, int) {
 	data := utils.GetInputData(1)
-	maxCal := 0
-	elves := strings.Split(data, "\n\n")
-
-	for _, elf := range elves {
-		caloryLoad := 0
-		cals := strings.Split(elf, "\n")
-		for _, cal := range cals {
-			n, err := strconv.Atoi(cal)
-			utils.ErrorCheck(err)
-			caloryLoad += n
-		}
-		if caloryLoad > maxCal {
-			maxCal = caloryLoad
-		}
-	}
-
-	return (maxCal)
-}
-
-func Part2() int {
-	data := utils.GetInputData(1)
-	top3 := []int{}
+	payLoads := []int{}
 	total := 0
 	elves := strings.Split(data, "\n\n")
 
@@ -42,24 +21,15 @@ func Part2() int {
 			utils.ErrorCheck(err)
 			caloryLoad += n
 		}
-		if len(top3) < 3 {
-			top3 = append(top3, caloryLoad)
-			sort.Slice(top3, func(i, j int) bool {
-				return top3[i] > top3[j]
-			})
-			continue
-		}
-
-		if top3[2] < caloryLoad {
-			top3[2] = caloryLoad
-		}
-		sort.Slice(top3, func(i, j int) bool {
-			return top3[i] > top3[j]
-		})
+		payLoads = append(payLoads, caloryLoad)
 
 	}
-	for _, elf := range top3 {
+	sort.Slice(payLoads, func(i, j int) bool {
+		return payLoads[i] > payLoads[j]
+	})
+
+	for _, elf := range payLoads[:3] {
 		total += elf
 	}
-	return (total)
+	return payLoads[0], total
 }
