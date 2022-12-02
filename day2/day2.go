@@ -10,49 +10,37 @@ func Solution() (int, int) {
 	total := 0
 	total2 := 0
 
+	enum := map[string]int{"A": 1, "B": 2, "C": 3, "X": 1, "Y": 2, "Z": 3}
+
 	for _, match := range strings.Split(data, "\n") {
 		selections := strings.Split(match, " ")
-		op, mine := selections[0], selections[1]
+		op, mine := enum[selections[0]], enum[selections[1]]
+
+		// Part 1
+		outcome := (mine - op) % 3
+		switch outcome {
+		case 0:
+			total += 3
+		case 1:
+			total += 6
+		case -2:
+			total += 6
+		}
+		total += mine
+		// Part 2
+		win := map[int]int{1: 2, 2: 3, 3: 1}
+		lose := map[int]int{1: 3, 2: 1, 3: 2}
 
 		switch mine {
-		case "X":
-			switch op {
-			case "A":
-				total += 4
-				total2 += 3
-			case "B":
-				total += 1
-				total2 += 1
-			case "C":
-				total += 7
-				total2 += 2
-			}
-		case "Y":
-			switch op {
-			case "A":
-				total += 8
-				total2 += 4
-			case "B":
-				total += 5
-				total2 += 5
-			case "C":
-				total += 2
-				total2 += 6
-			}
-		case "Z":
-			switch op {
-			case "A":
-				total += 3
-				total2 += 8
-			case "B":
-				total += 9
-				total2 += 9
-			case "C":
-				total += 6
-				total2 += 7
-			}
+		case 1:
+			total2 += lose[op]
+		case 2:
+			total2 += op
+			total2 += 3
+		case 3:
+			total2 += win[op]
+			total2 += 6
 		}
-
 	}
 	return total, total2
 }
