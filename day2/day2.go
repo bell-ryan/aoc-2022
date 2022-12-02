@@ -14,44 +14,40 @@ func Solution() (int, int) {
 		selections := strings.Split(match, " ")
 		op, mine := selections[0], selections[1]
 
-		if mine == "X" {
-			if op == "A" {
+		switch mine {
+		case "X":
+			switch op {
+			case "A":
 				total += 4
 				total2 += 3
-			}
-			if op == "B" {
+			case "B":
 				total += 1
 				total2 += 1
-			}
-			if op == "C" {
+			case "C":
 				total += 7
 				total2 += 2
 			}
-		}
-		if mine == "Y" {
-			if op == "A" {
+		case "Y":
+			switch op {
+			case "A":
 				total += 8
 				total2 += 4
-			}
-			if op == "B" {
+			case "B":
 				total += 5
 				total2 += 5
-			}
-			if op == "C" {
+			case "C":
 				total += 2
 				total2 += 6
 			}
-		}
-		if mine == "Z" {
-			if op == "A" {
+		case "Z":
+			switch op {
+			case "A":
 				total += 3
 				total2 += 8
-			}
-			if op == "B" {
+			case "B":
 				total += 9
 				total2 += 9
-			}
-			if op == "C" {
+			case "C":
 				total += 6
 				total2 += 7
 			}
