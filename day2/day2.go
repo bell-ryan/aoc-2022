@@ -2,7 +2,6 @@ package day2
 
 import (
 	"aoc/utils"
-	"fmt"
 	"strings"
 )
 
@@ -43,6 +42,6 @@ func Solution() (int, int) {
 			total2 += 6
 		}
 	}
-	fmt.Println(-1 % 3)
+
 	return total, total2
 }

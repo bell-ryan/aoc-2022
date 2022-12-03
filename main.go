@@ -18,7 +18,11 @@ func main() {
 	p1, p2 = day2.Solution()
 	fmt.Printf("Day 2 - part 1 answer %d\n", p1)
 	fmt.Printf("Day 2 - part 2 answer %d\n", p2)
+	fmt.Println("-----------------")
 
 	// Day 3
-	day3.Solution()
+	p1, p2 = day3.Solution()
+	fmt.Printf("Day 3 - part 1 answer %d\n", p1)
+	fmt.Printf("Day 3 - part 2 answer %d\n", p2)
+	fmt.Println("-----------------")
 }
