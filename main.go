@@ -3,6 +3,7 @@ package main
 import (
 	"aoc/day1"
 	"aoc/day2"
+	"aoc/day3"
 	"fmt"
 )
 
@@ -18,4 +19,6 @@ func main() {
 	fmt.Printf("Day 2 - part 1 answer %d\n", p1)
 	fmt.Printf("Day 2 - part 2 answer %d\n", p2)
 
+	// Day 3
+	day3.Solution()
 }
