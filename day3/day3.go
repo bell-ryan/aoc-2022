@@ -18,12 +18,7 @@ func Solution() (int, int) {
 		}
 		for _, bit := range c2 {
 			if _, ok := m[bit]; ok {
-				if bit >= 97 {
-					total += int(bit - 'a' + 1)
-
-				} else {
-					total += int(bit - 'A' + 27)
-				}
+				total += bitToInt(bit)
 				break
 			}
 		}
@@ -38,30 +33,35 @@ func Solution() (int, int) {
 		for i := range group {
 			ruckBytes := []byte(group[i])
 			for _, bit := range ruckBytes {
-
-				f := m[bit]
-				f[i] = 1
-				m[bit] = f
+				tempSlice := m[bit]
+				tempSlice[i] = 1
+				m[bit] = tempSlice
 			}
 
 		}
 
 		for k, v := range m {
 			c := 0
-			for i := range v {
-				c += v[i]
+			for elfI := range v {
+				c += v[elfI]
 			}
 
 			if c == 3 {
-				if k >= 97 {
-					total2 += int(k - 'a' + 1)
-
-				} else {
-					total2 += int(k - 'A' + 27)
-				}
+				total2 += bitToInt(k)
 			}
 
 		}
 	}
 	return total, total2
+}
+
+func bitToInt(b byte) int {
+	var num int
+	if b >= 97 {
+		num += int(b - 'a' + 1)
+
+	} else {
+		num += int(b - 'A' + 27)
+	}
+	return num
 }
