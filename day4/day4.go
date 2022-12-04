@@ -25,13 +25,14 @@ func Solution() (int, int) {
 		elf2.min, _ = strconv.Atoi(sector2[0])
 		elf2.max, _ = strconv.Atoi(sector2[1])
 
+		// part 1
 		if elf1.min >= elf2.min && elf1.max <= elf2.max {
 			count += 1
-
 		} else if elf2.min >= elf1.min && elf2.max <= elf1.max {
 			count += 1
 		}
 
+		// part 2
 		if elf1.min >= elf2.min && elf1.min <= elf2.max {
 			count2 += 1
 		} else if elf2.min >= elf1.min && elf2.min <= elf1.max {
