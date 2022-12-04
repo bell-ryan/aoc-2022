@@ -8,48 +8,29 @@ import (
 func Solution() (int, int) {
 	data := utils.GetInputData(3)
 	rucks := strings.Split(data, "\n")
+
+	// part 1
 	total := 0
 	for i := 0; i < len(rucks); i++ {
-		ruckBytes := []byte(rucks[i])
-		c1, c2 := ruckBytes[:len(ruckBytes)/2], ruckBytes[len(ruckBytes)/2:]
-		m := map[byte]int{}
-		for _, bit := range c1 {
-			m[bit] = 1
-		}
-		for _, bit := range c2 {
-			if _, ok := m[bit]; ok {
-				total += bitToInt(bit)
+		ruck := rucks[i]
+		c1, c2 := ruck[:len(ruck)/2], ruck[len(ruck)/2:]
+		for _, char := range c1 {
+			if strings.Contains(c2, string(char)) {
+				total += bitToInt(byte(char))
 				break
 			}
 		}
 	}
+
 	// part 2
 	total2 := 0
 	for i := 0; i < len(rucks); i += 3 {
-
-		group := rucks[i : i+3]
-		m := make(map[byte][3]int)
-
-		for i := range group {
-			ruckBytes := []byte(group[i])
-			for _, bit := range ruckBytes {
-				tempSlice := m[bit]
-				tempSlice[i] = 1
-				m[bit] = tempSlice
+		e1, e2, e3 := rucks[i], rucks[i+1], rucks[i+2]
+		for _, char := range e1 {
+			if strings.Contains(e2, string(char)) && strings.Contains(e3, string(char)) {
+				total2 += bitToInt(byte(char))
+				break
 			}
-
-		}
-
-		for k, v := range m {
-			c := 0
-			for elfI := range v {
-				c += v[elfI]
-			}
-
-			if c == 3 {
-				total2 += bitToInt(k)
-			}
-
 		}
 	}
 	return total, total2
@@ -57,9 +38,9 @@ func Solution() (int, int) {
 
 func bitToInt(b byte) int {
 	var num int
+
 	if b >= 97 {
 		num += int(b - 'a' + 1)
-
 	} else {
 		num += int(b - 'A' + 27)
 	}
