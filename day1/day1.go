@@ -8,10 +8,9 @@ import (
 )
 
 func Solution() (int, int) {
-	data := utils.GetInputData(1)
 	payLoads := []int{}
 	total := 0
-	elves := strings.Split(data, "\n\n")
+	elves := strings.Split(input, "\n\n")
 
 	for _, elf := range elves {
 		caloryLoad := 0
