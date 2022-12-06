@@ -1,6 +1,7 @@
 package day5
 
-var sample = `    [D]    
+var sample = `
+    [D]    
 [N] [C]    
 [Z] [M] [P]
  1   2   3 
@@ -10,7 +11,8 @@ move 3 from 1 to 3
 move 2 from 2 to 1
 move 1 from 1 to 2`
 
-var input = `    [G]         [P]         [M]    
+var input = `
+    [G]         [P]         [M]    
 [V]     [M] [W] [S]     [Q]    
 [N]     [N] [G] [H]     [T] [F]
 [J]     [W] [V] [Q] [W] [F] [P]
