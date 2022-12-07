@@ -7,6 +7,7 @@ import (
 	"aoc/day4"
 	"aoc/day5"
 	"aoc/day6"
+	"aoc/day7"
 	"fmt"
 )
 
@@ -46,6 +47,13 @@ func main() {
 	p1, p2 = day6.Start()
 	fmt.Printf("Day 6 - part 1 answer %d\n", p1)
 	fmt.Printf("Day 6 - part 2 answer %d\n", p2)
+	fmt.Println("-----------------")
+
+	// Day 7
+	// p1, p2 = day6.Start()
+	// fmt.Printf("Day 6 - part 1 answer %d\n", p1)
+	// fmt.Printf("Day 6 - part 2 answer %d\n", p2)
+	day7.Solution()
 	fmt.Println("-----------------")
 
 }

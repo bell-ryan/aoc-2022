@@ -16,8 +16,12 @@ type move struct {
 func formatData() ([9][]string, []move) {
 	fStacks := strings.ReplaceAll(utils.GetInputData(5), "    [", "--- [")
 	fStacks = strings.ReplaceAll(fStacks, "]    ", "] ---")
+	fStacks = strings.ReplaceAll(fStacks, "     ", " --- ")
+	fStacks = strings.ReplaceAll(fStacks, "    ", " ---")
+
 	data := strings.Split(fStacks, "\n\n")
 	stacks, moves := strings.Split(data[0], "\n"), strings.Split(data[1], "\n")
+
 	instructions := []move{}
 	stacksSlice := [9][]string{}
 	stacks = stacks[:len(stacks)-1]
@@ -61,16 +65,14 @@ func Solution() {
 
 	fmt.Println("---")
 
-	//Part 2
+	// Part 2
 	stackSlice, instructions = formatData()
 	for _, instruction := range instructions {
 
 		crates := make([]string, len(stackSlice[instruction.from-1][:instruction.count]))
 		copy(crates, stackSlice[instruction.from-1][:instruction.count])
 		stackSlice[instruction.to-1] = append(crates, stackSlice[instruction.to-1]...)
-
 		stackSlice[instruction.from-1] = stackSlice[instruction.from-1][instruction.count:]
-		fmt.Print("")
 	}
 	for _, t := range stackSlice {
 		fmt.Print(t[0])
