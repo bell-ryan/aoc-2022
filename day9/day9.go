@@ -105,9 +105,7 @@ func Solution() {
 
 	rope.tailStops = map[string]struct{}{}
 	for _, move := range data {
-
 		rope.walkItOut(move.direction, move.steps)
-
 	}
 	fmt.Println(len(rope.tailStops))
 }
