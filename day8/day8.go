@@ -6,58 +6,66 @@ import (
 	"strings"
 )
 
-func checkLeft(height int, row []int, position int, views []int) bool {
+type views struct {
+	left   int
+	right  int
+	top    int
+	bottom int
+}
+
+type coordinates struct {
+	row int
+	col int
+}
+
+func checkLeft(height int, row []int, position int, views *views) bool {
 	if position == 0 {
 		return true
 	}
 	if height <= row[position-1] {
-		views[0] += 1
+		views.left += 1
 		return false
 	}
-	views[0] += 1
+	views.left += 1
 	return checkLeft(height, row, position-1, views)
 }
 
-func checkRight(height int, row []int, position int, views []int) bool {
+func checkRight(height int, row []int, position int, views *views) bool {
 	if position == len(row)-1 {
 		return true
 	}
 	if height <= row[position+1] {
-		views[1] += 1
+		views.right += 1
 		return false
 	}
-	views[1] += 1
+	views.right += 1
 	return checkRight(height, row, position+1, views)
 }
 
-func checkTop(height int, rows [][]int, position []int, views []int) bool {
-	if position[0] == 0 {
+func checkTop(height int, rows [][]int, position coordinates, views *views) bool {
+	if position.row == 0 {
 		return true
 	}
-	if height <= rows[position[0]-1][position[1]] {
-		views[2] += 1
+	if height <= rows[position.row-1][position.col] {
+		views.top += 1
 		return false
 	}
-	p := make([]int, len(position))
-	copy(p, position)
-	p[0] -= 1
-	views[2] += 1
-	return checkTop(height, rows, p, views)
+	position.row -= 1
+	views.top += 1
+	return checkTop(height, rows, position, views)
 }
 
-func checkBottom(height int, rows [][]int, position []int, views []int) bool {
-	if position[0] == len(rows)-1 {
+func checkBottom(height int, rows [][]int, position coordinates, views *views) bool {
+	if position.row == len(rows)-1 {
 		return true
 	}
-	if height <= rows[position[0]+1][position[1]] {
-		views[3] += 1
+	if height <= rows[position.row+1][position.col] {
+		views.bottom += 1
 		return false
 	}
-	p := make([]int, len(position))
-	copy(p, position)
-	p[0] += 1
-	views[3] += 1
-	return checkBottom(height, rows, p, views)
+	position.row += 1
+	views.bottom += 1
+	return checkBottom(height, rows, position, views)
 }
 
 func convertGridToInts() [][]int {
@@ -83,20 +91,20 @@ func Solution() {
 
 	for row := 1; row < len(rows)-1; row++ {
 		for col := 1; col < len(rows[0])-1; col++ {
-			position := []int{row, col}
+			coordinates := coordinates{row: row, col: col}
 			val := rows[row][col]
-			views := []int{0, 0, 0, 0}
+			views := &views{}
+
 			left = checkLeft(val, rows[row], col, views)
 			right = checkRight(val, rows[row], col, views)
-			top = checkTop(val, rows, position, views)
-			bottom = checkBottom(val, rows, position, views)
+			top = checkTop(val, rows, coordinates, views)
+			bottom = checkBottom(val, rows, coordinates, views)
 
 			// part2
-			viewDistance := views[0] * views[1] * views[2] * views[3]
+			viewDistance := views.left * views.bottom * views.right * views.top
 			if viewDistance > theCrib {
 				theCrib = viewDistance
 			}
-			//
 
 			// part1
 			if left {
