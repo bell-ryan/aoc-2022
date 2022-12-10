@@ -14,6 +14,7 @@ type cpu struct {
 	total        int
 	linePosition int
 	crt          string
+	eventList    []int
 }
 
 func (c *cpu) incrementCycle() {
@@ -22,8 +23,12 @@ func (c *cpu) incrementCycle() {
 }
 
 func (c *cpu) updateRegister(a int) {
+	c.incrementCycle()
+	c.draw()
+	c.incrementCycle()
 	c.register += a
 }
+
 func (c *cpu) record() {
 	if c.cycle%20 == 0 {
 		c.tracker[c.cycle] = c.register
@@ -31,69 +36,46 @@ func (c *cpu) record() {
 }
 
 func (c *cpu) calcTotal() {
-	for cycle, val := range c.tracker {
-		m := 0
-		switch cycle {
-		case 20:
-			m = cycle * val
-		case 60:
-			m = cycle * val
-		case 100:
-			m = cycle * val
-		case 140:
-			m = cycle * val
-		case 180:
-			m = cycle * val
-		case 220:
-			m = cycle * val
-		}
-		c.total += m
+	for _, event := range c.eventList {
+		c.total += event * c.tracker[event]
 	}
 }
 
 func (c *cpu) draw() {
-
-	if inRange(c.linePosition, c.register-1, c.register+1) {
+	if utils.InRange(c.linePosition, c.register-1, c.register+1) {
 		c.crt += "#"
 	} else {
 		c.crt += "."
 	}
+	c.linePosition++
 
-	if c.linePosition == 39 {
+	//start drawing next line
+	if c.linePosition == 40 {
 		c.linePosition = 0
 		c.crt += "\n"
-		return
 	}
-	c.linePosition++
+
 }
 
-func inRange(i, min, max int) bool {
-	return (i >= min) && (i <= max)
-}
 func Solution() {
 	instructionSet := strings.Split(utils.GetInputData(10), "\n")
 
 	cpu := cpu{}
 	cpu.tracker = map[int]int{}
 	cpu.register = 1
-	cpu.linePosition = 0
+	cpu.eventList = []int{20, 60, 100, 140, 180, 220} // cycle number to record
 
 	for _, instruction := range instructionSet {
 		cpu.draw()
 		if instruction == "noop" {
 			cpu.incrementCycle()
-			// cpu.draw()
 			continue
 		}
 		amount := strings.Split(instruction, " ")[1]
 		a, _ := strconv.Atoi(amount)
-		cpu.incrementCycle()
-		cpu.draw()
-		cpu.incrementCycle()
 		cpu.updateRegister(a)
-		// cpu.draw()
-
 	}
+
 	cpu.calcTotal()
 
 	fmt.Printf("Day 10 - part1: %d\n", cpu.total)
