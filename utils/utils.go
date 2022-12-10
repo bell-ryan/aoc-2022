@@ -51,3 +51,7 @@ func StringToInt(s string) int {
 
 	return num
 }
+
+func InRange(i, min, max int) bool {
+	return (i >= min) && (i <= max)
+}
