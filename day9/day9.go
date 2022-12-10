@@ -90,7 +90,7 @@ func Solution() {
 	// build ropes
 	rope1, rope2 := rope{}, rope{}
 	rope1.tailStops, rope2.tailStops = map[string]struct{}{}, map[string]struct{}{}
-	rope1.knots = []location{start, start, start}
+	rope1.knots = []location{start, start}
 	rope2.knots = []location{start, start, start, start, start, start, start, start, start, start}
 
 	for _, move := range data {
@@ -98,8 +98,9 @@ func Solution() {
 		rope2.walkItOut(move.direction, move.steps)
 	}
 
-	fmt.Println(len(rope1.tailStops))
-	fmt.Println(len(rope2.tailStops))
+	fmt.Printf("Day9 - part 1: %d\n", len(rope1.tailStops))
+	fmt.Printf("Day9 - part 2: %d\n", len(rope2.tailStops))
+
 }
 
 func signum(a int) int {

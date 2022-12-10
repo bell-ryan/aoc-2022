@@ -59,11 +59,12 @@ func (c *cpu) draw() {
 		c.crt += "."
 	}
 
-	c.linePosition++
-	if c.cycle%40 == 0 {
-		c.linePosition = 1
+	if c.linePosition == 39 {
+		c.linePosition = 0
 		c.crt += "\n"
+		return
 	}
+	c.linePosition++
 }
 
 func inRange(i, min, max int) bool {
@@ -75,13 +76,13 @@ func Solution() {
 	cpu := cpu{}
 	cpu.tracker = map[int]int{}
 	cpu.register = 1
-	cpu.linePosition = 1
+	cpu.linePosition = 0
 
 	for _, instruction := range instructionSet {
-
+		cpu.draw()
 		if instruction == "noop" {
 			cpu.incrementCycle()
-			cpu.draw()
+			// cpu.draw()
 			continue
 		}
 		amount := strings.Split(instruction, " ")[1]
@@ -90,12 +91,12 @@ func Solution() {
 		cpu.draw()
 		cpu.incrementCycle()
 		cpu.updateRegister(a)
-		cpu.draw()
+		// cpu.draw()
 
 	}
 	cpu.calcTotal()
 
-	fmt.Println(cpu.total)
-	fmt.Println(cpu.crt)
+	fmt.Printf("Day 10 - part1: %d\n", cpu.total)
+	fmt.Printf("Day 10 - part2:\n%s\n", cpu.crt)
 
 }
