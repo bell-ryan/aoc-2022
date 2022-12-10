@@ -2,6 +2,7 @@ package day9
 
 import (
 	"fmt"
+	"math"
 	"strconv"
 	"strings"
 )
@@ -11,8 +12,7 @@ type location struct {
 	horizontal int
 }
 type rope struct {
-	head      location
-	tail      location
+	knots     []location
 	tailStops map[string]struct{}
 }
 
@@ -21,42 +21,25 @@ type instruction struct {
 	steps     int
 }
 
-func (r *rope) moveLeft() {
-	r.head.horizontal -= 1
-	if r.checkSeparation() {
-		r.tail.horizontal = r.head.horizontal + 1
-		r.tail.vertical = r.head.vertical
-	}
-}
-func (r *rope) moveRight() {
-	r.head.horizontal += 1
-	if r.checkSeparation() {
-		r.tail.horizontal = r.head.horizontal - 1
-		r.tail.vertical = r.head.vertical
-	}
-}
-func (r *rope) moveUp() {
-	r.head.vertical += 1
-	if r.checkSeparation() {
-		r.tail.horizontal = r.head.horizontal
-		r.tail.vertical = r.head.vertical - 1
-	}
-}
-func (r *rope) moveDown() {
-	r.head.vertical -= 1
-	if r.checkSeparation() {
-		r.tail.horizontal = r.head.horizontal
-		r.tail.vertical = r.head.vertical + 1
+func (r *rope) move() {
+	for i := 1; i < len(r.knots); i++ {
+		if r.checkKnotsSeparation(i) {
+			r.knots[i].horizontal += signum(r.knots[i-1].horizontal - r.knots[i].horizontal)
+			r.knots[i].vertical += signum(r.knots[i-1].vertical - r.knots[i].vertical)
+		} else {
+			break
+		}
+		fmt.Print()
 	}
 }
 
-func (r *rope) checkSeparation() bool {
-	hSep := r.head.horizontal - r.tail.horizontal
-	vSep := r.head.vertical - r.tail.vertical
-	if hSep > 1 || hSep < -1 {
+func (r *rope) checkKnotsSeparation(current int) bool {
+	hSep := r.knots[current-1].horizontal - r.knots[current].horizontal
+	vSep := r.knots[current-1].vertical - r.knots[current].vertical
+	if math.Abs(float64(hSep)) > 1 {
 		return true
 	}
-	if vSep > 1 || vSep < -1 {
+	if math.Abs(float64(vSep)) > 1 {
 		return true
 	}
 
@@ -67,16 +50,22 @@ func (r *rope) walkItOut(direction string, steps int) {
 	for step := 0; step < steps; step++ {
 		switch direction {
 		case "L":
-			r.moveLeft()
+			r.knots[0].horizontal--
+			r.move()
 		case "R":
-			r.moveRight()
+			r.knots[0].horizontal++
+			r.move()
 		case "U":
-			r.moveUp()
+			r.knots[0].vertical++
+			r.move()
 		case "D":
-			r.moveDown()
+			r.knots[0].vertical--
+			r.move()
 		}
-		tailLoc := fmt.Sprintf("%d%d", r.tail.vertical, r.tail.horizontal)
+
+		tailLoc := fmt.Sprintf("%d%d", r.knots[len(r.knots)-1].vertical, r.knots[len(r.knots)-1].horizontal)
 		r.tailStops[tailLoc] = struct{}{}
+
 	}
 
 }
@@ -95,17 +84,30 @@ func getInput() []instruction {
 }
 func Solution() {
 	data := getInput()
-	rope := rope{}
-
 	// Cheesing the starting location because im too dumb to handle negative ints :(
-	rope.head.horizontal = 1000
-	rope.head.vertical = 1000
-	rope.tail.horizontal = 1000
-	rope.tail.vertical = 1000
+	start := location{vertical: 1000, horizontal: 1000}
 
-	rope.tailStops = map[string]struct{}{}
+	// build ropes
+	rope1, rope2 := rope{}, rope{}
+	rope1.tailStops, rope2.tailStops = map[string]struct{}{}, map[string]struct{}{}
+	rope1.knots = []location{start, start, start}
+	rope2.knots = []location{start, start, start, start, start, start, start, start, start, start}
+
 	for _, move := range data {
-		rope.walkItOut(move.direction, move.steps)
+		rope1.walkItOut(move.direction, move.steps)
+		rope2.walkItOut(move.direction, move.steps)
 	}
-	fmt.Println(len(rope.tailStops))
+
+	fmt.Println(len(rope1.tailStops))
+	fmt.Println(len(rope2.tailStops))
+}
+
+func signum(a int) int {
+	switch {
+	case a < 0:
+		return -1
+	case a > 0:
+		return +1
+	}
+	return 0
 }
