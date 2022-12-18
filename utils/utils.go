@@ -55,3 +55,14 @@ func StringToInt(s string) int {
 func InRange(i, min, max int) bool {
 	return (i >= min) && (i <= max)
 }
+
+func LetterToInt(b byte) int {
+	var num int
+
+	if b >= 97 {
+		num += int(b - 'a' + 1)
+	} else {
+		num += int(b - 'A' + 27)
+	}
+	return num
+}

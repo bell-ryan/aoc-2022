@@ -3,6 +3,8 @@ package main
 import (
 	"aoc/day1"
 	"aoc/day10"
+	"aoc/day11"
+	"aoc/day12"
 	"aoc/day2"
 	"aoc/day3"
 	"aoc/day4"
@@ -78,6 +80,20 @@ func main() {
 	// fmt.Printf("Day 9 - part 1 answer %d\n", p1)
 	// fmt.Printf("Day 9 - part 2 answer %d\n", p2)
 	day10.Solution()
+	fmt.Println("-----------------")
+
+	// Day 11
+	// p1, p2 = day9.Start()
+	// fmt.Printf("Day 9 - part 1 answer %d\n", p1)
+	// fmt.Printf("Day 9 - part 2 answer %d\n", p2)
+	day11.Solution()
+	fmt.Println("-----------------")
+
+	// Day 12
+	// p1, p2 = day9.Start()
+	// fmt.Printf("Day 9 - part 1 answer %d\n", p1)
+	// fmt.Printf("Day 9 - part 2 answer %d\n", p2)
+	day12.Solution()
 	fmt.Println("-----------------")
 
 }
